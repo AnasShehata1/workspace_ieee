@@ -4,15 +4,7 @@ class SignupView extends StatelessWidget {
   const SignupView({super.key});
 
   @override
-/*************  ✨ Windsurf Command ⭐  *************/
-  /// Builds the signup screen UI.
-  ///
-  /// Returns a [Scaffold] containing a form for user registration. The form
-  /// includes fields for email and password input, along with a signup button.
-  /// There is also a navigation option for users who already have an account
-  /// to go back to the login screen.
-
-/*******  c4b95b1b-7869-4414-b965-556cf76620a1  *******/  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(24.0),
