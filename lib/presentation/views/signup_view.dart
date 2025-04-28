@@ -4,7 +4,15 @@ class SignupView extends StatelessWidget {
   const SignupView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+/*************  ✨ Windsurf Command ⭐  *************/
+  /// Builds the signup screen UI.
+  ///
+  /// Returns a [Scaffold] containing a form for user registration. The form
+  /// includes fields for email and password input, along with a signup button.
+  /// There is also a navigation option for users who already have an account
+  /// to go back to the login screen.
+
+/*******  c4b95b1b-7869-4414-b965-556cf76620a1  *******/  Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -13,7 +21,7 @@ class SignupView extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
+                const Text(
                   'Create Account',
                   style: TextStyle(
                     fontSize: 28,
@@ -23,15 +31,46 @@ class SignupView extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
                 TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Email',
+                  decoration: const InputDecoration(
+                    labelText: 'Name',
                     border: OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: 16),
                 TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'Age',
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'City',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'Phone Number',
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.phone,
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 16),
+                TextField(
                   obscureText: true,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Password',
                     border: OutlineInputBorder(),
                   ),
@@ -43,19 +82,19 @@ class SignupView extends StatelessWidget {
                     onPressed: () {
                       // Handle signup action
                     },
-                    child: Text('Signup'),
+                    child: const Text('Signup'),
                   ),
                 ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Already have an account? "),
+                    const Text("Already have an account? "),
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text(
+                      child: const Text(
                         "Login",
                         style: TextStyle(
                           color: Colors.deepPurple,
