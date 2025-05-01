@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:workspace_ieee/presentation/views/login_view.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -25,6 +27,23 @@ class ProfileView extends StatelessWidget {
             buildInfoCard('Phone', '+20 123 456 7890'),
             const SizedBox(height: 10),
             buildInfoCard('City', 'Banha'),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () {
+                try {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginView(),
+                    ),
+                  );
+                } catch (_) {
+                  print('Error signing out');
+                }
+              },
+              child: Text('Logout'),
+            ),
           ],
         ),
       ),

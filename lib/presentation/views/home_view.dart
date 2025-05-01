@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {
@@ -8,52 +9,77 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final List<Map<String, String>> items = [
-    {
-      'image': 'https://picsum.photos/200',
-      'title': 'Item 1',
-      'description': 'Description 1',
-    },
-    {
-      'image': 'https://picsum.photos/201',
-      'title': 'Item 2',
-      'description': 'Description 2',
-    },
-    {
-      'image': 'https://picsum.photos/202',
-      'title': 'Item 3',
-      'description': 'Description 3',
-    },
-    {
-      'image': 'https://picsum.photos/203',
-      'title': 'Item 4',
-      'description': 'Description 4',
-    },
-    {
-      'image': 'https://picsum.photos/200',
-      'title': 'Item 5',
-      'description': 'Description 1',
-    },
-    {
-      'image': 'https://picsum.photos/201',
-      'title': 'Item 6',
-      'description': 'Description 2',
-    },
-    {
-      'image': 'https://picsum.photos/202',
-      'title': 'Item 7',
-      'description': 'Description 3',
-    },
-    {
-      'image': 'https://picsum.photos/203',
-      'title': 'Item 8',
-      'description': 'Description 4',
-    },
-  ];
+  List<Map<String, dynamic>> items = [];
+
+  // [
+  // {
+  //   'image': 'https://picsum.photos/200',
+  //   'title': 'Item 1',
+  //   'description': 'Description 1',
+  // },
+  // {
+  //   'image': 'https://picsum.photos/201',
+  //   'title': 'Item 2',
+  //   'description': 'Description 2',
+  // },
+  // {
+  //   'image': 'https://picsum.photos/202',
+  //   'title': 'Item 3',
+  //   'description': 'Description 3',
+  // },
+  // {
+  //   'image': 'https://picsum.photos/203',
+  //   'title': 'Item 4',
+  //   'description': 'Description 4',
+  // },
+  // {
+  //   'image': 'https://picsum.photos/200',
+  //   'title': 'Item 5',
+  //   'description': 'Description 1',
+  // },
+  // {
+  //   'image': 'https://picsum.photos/201',
+  //   'title': 'Item 6',
+  //   'description': 'Description 2',
+  // },
+  // {
+  //   'image': 'https://picsum.photos/202',
+  //   'title': 'Item 7',
+  //   'description': 'Description 3',
+  // },
+  // {
+  //   'image': 'https://picsum.photos/203',
+  //   'title': 'Item 8',
+  //   'description': 'Description 4',
+  // },
+  // ];
 
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController imageUrlController = TextEditingController();
+
+  static late final FirebaseFirestore _firestore;
+
+  void readItems() async {
+    _firestore.collection('items').get().then(
+      (value) {
+        setState(() {
+          items = value.docs
+              .map(
+                (e) => e.data(),
+              )
+              .toList();
+        });
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _firestore = FirebaseFirestore.instance;
+    readItems();
+  }
 
   void showAddItemDialog() {
     showDialog(
@@ -90,21 +116,27 @@ class _HomeViewState extends State<HomeView> {
               child: Text('Cancel'),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (titleController.text.isNotEmpty &&
                     descriptionController.text.isNotEmpty &&
                     imageUrlController.text.isNotEmpty) {
-                  setState(() {
-                    items.add({
-                      'title': titleController.text,
-                      'description': descriptionController.text,
-                      'image': imageUrlController.text,
-                    });
+                  // setState(() {
+                  //   items.add({
+                  //     'title': titleController.text,
+                  //     'description': descriptionController.text,
+                  //     'image': imageUrlController.text,
+                  //   });
+                  // });
+                  await _firestore.collection('items').add({
+                    'title': titleController.text.trim(),
+                    'description': descriptionController.text.trim(),
+                    'image': imageUrlController.text.trim(),
                   });
                   titleController.clear();
                   descriptionController.clear();
                   imageUrlController.clear();
                   Navigator.pop(context);
+                  readItems();
                 }
               },
               child: Text('Save'),
